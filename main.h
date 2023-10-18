@@ -1,6 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+
 /* c libraries */
 #include <stdarg.h>
 #include <unistd.h>
@@ -10,5 +11,6 @@
 int _printf(const char *format, ...);
 int _putchar(char c);
 const char *format_func(const char *format, va_list args_list, int *counter);
+char *convert_num_to_str(int num);
 
 #endif
