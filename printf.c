@@ -23,26 +23,40 @@ int _printf(const char *format, ...)
 
 	va_start(args_list, format);
 
-	while (*format != '\0')
+	for (const char *mover = format; *mover != '\0'; mover++)
 	{
-		if (*format == '%')
+		/* If the current character isn't a */
+		/* specifier introducer, print it as a normal character. */
+		if (*mover != '%')
 		{
-			format++;
-			if (*format == '\0')
-				return (-1);
-			while (*format == ' ')
-				format++;
-			format = format_func(format, args_list, &counter);
-			format++;
+			_putchar(*mover);
+			counter++;
 		}
 		else
 		{
-			_putchar(*format);
-			format++;
-			counter++;
+			/* If the current character is a specifier */
+			/* introducer, we process according to the specifier */
+			mover++;  /* Move past the '%' character */
+			if (*mover == '\0')
+			{
+				break;  /* End of format string, break from loop */
+			}
+
+			while (*mover == ' ')
+			{
+				mover++;  /* Skip spaces after '%' */
+			}
+
+			/* Call function to handle formatting. */
+			/* This function can adjust the mover pointer if necessary. */
+			mover = format_func(mover, args_list, &counter);
+
+			if (mover == NULL || *mover == '\0')
+			{
+				break;  /*In case of an error or end of the format string, we exit the loop*/
+			}
 		}
 	}
-	va_end(args_list);
-	return (counter);
+	va_end(args_list);  /*Clean up the argument list*/
+	return (counter);  /*Return the count of characters printed*/
 }
-
